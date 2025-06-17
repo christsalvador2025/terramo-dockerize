@@ -46,11 +46,14 @@ class BaseUserSchema(SQLModel):
     last_name: str = Field(max_length=30)
     id_no: int = Field(unique=True, gt=0)
     is_active: bool = False
-    is_superuser: bool = False
+    is_superadmin: bool = False
+    is_consultant: bool = False 
+    is_decision_maker: bool = False 
+    is_admin: bool = False
     security_question: SecurityQuestionsSchema = Field(max_length=30)
     security_answer: str = Field(max_length=30)
     account_status: AccountStatusSchema = Field(default=AccountStatusSchema.INACTIVE)
-    role: RoleChoicesSchema = Field(default=RoleChoicesSchema.CUSTOMER)
+    # role: RoleChoicesSchema = Field(default=RoleChoicesSchema.CUSTOMER)
 
 
 class UserCreateSchema(BaseUserSchema):

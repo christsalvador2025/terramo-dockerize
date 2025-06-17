@@ -11,7 +11,7 @@ from backend.app.api.routes.auth import (
 )
 
 from backend.app.api.routes.profile import all_profiles, create, me, update, upload
-
+from backend.app.api.routes.company import all_companies
 api_router = APIRouter()
 
 api_router.include_router(home.router)
@@ -26,5 +26,6 @@ api_router.include_router(update.router)
 api_router.include_router(upload.router)
 api_router.include_router(me.router)
 api_router.include_router(all_profiles.router)
-api_router.include_router(all.router)
+api_router.include_router(all_companies.router)
+api_router.include_router(me.router)
 

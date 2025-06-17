@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 celery = "==5.3.6"
+alembic = "==1.14.0"
+fastapi = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 

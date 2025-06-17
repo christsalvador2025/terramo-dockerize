@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import computed_field
 from sqlalchemy import func, text
@@ -11,6 +11,7 @@ from backend.app.auth.schema import BaseUserSchema, RoleChoicesSchema
 
 if TYPE_CHECKING:
     from backend.app.user_profile.models import Profile
+    from backend.app.company.models import Company
 
 
 class User(BaseUserSchema, table=True):
@@ -55,11 +56,14 @@ class User(BaseUserSchema, table=True):
         },
     )
     
+    # Relationships
+    company: Optional["Company"] = Relationship(back_populates="users")
+    
     @computed_field
     @property
     def full_name(self) -> str:
         full_name = f"{self.first_name} {self.middle_name + ' ' if self.middle_name else ''}{self.last_name}"
         return full_name.title().strip()
 
-    def has_role(self, role: RoleChoicesSchema) -> bool:
-        return self.role.value == role.value
+    # def has_role(self, role: RoleChoicesSchema) -> bool:
+    #     return self.role.value == role.value
