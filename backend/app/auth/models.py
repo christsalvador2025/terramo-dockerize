@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, List
 
 from pydantic import computed_field
 from sqlalchemy import func, text
@@ -12,9 +12,11 @@ from backend.app.auth.schema import BaseUserSchema, RoleChoicesSchema
 if TYPE_CHECKING:
     from backend.app.user_profile.models import Profile
     from backend.app.company.models import Company
+    from backend.app.country.models import Country
 
 
 class User(BaseUserSchema, table=True):
+    
     id: uuid.UUID = Field(
         sa_column=Column(
             pg.UUID(as_uuid=True),
@@ -55,10 +57,27 @@ class User(BaseUserSchema, table=True):
             "lazy": "selectin",
         },
     )
+
+    # --------- Country Relations -----------
+    countries_created: List["Country"] = Relationship(
+        back_populates="created_by_user",
+        sa_relationship_kwargs={"foreign_keys": "Country.country_created_by"}
+    )
+    countries_updated: List["Country"] = Relationship(
+        back_populates="updated_by_user",
+        sa_relationship_kwargs={"foreign_keys": "Country.country_updated_by"}
+    )
+
     
     # Relationships
-    company: Optional["Company"] = Relationship(back_populates="users")
-    
+    # company: Optional["Company"] = Relationship(back_populates="users")
+
+    company_id: Optional[uuid.UUID] = Field(default=None, foreign_key="company.id", index=True)
+    # client_id: Optional = Field(
+    #     default=None, foreign_key="company.client_id", index=True
+    # )
+
+    company: "Company" = Relationship(back_populates="users")
     @computed_field
     @property
     def full_name(self) -> str:
@@ -67,3 +86,6 @@ class User(BaseUserSchema, table=True):
 
     # def has_role(self, role: RoleChoicesSchema) -> bool:
     #     return self.role.value == role.value
+
+
+    

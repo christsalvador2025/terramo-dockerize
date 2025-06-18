@@ -39,5 +39,9 @@ class CompanyModuleAccess(CompanyModuleAccessBaseSchema, table=True):
         ),
     )
 
-    company: list["Company"] = Relationship(back_populates="company")
-    terramo_module: list["TerramoModule"] = Relationship(back_populates="terramo_module")
+    # company: list["Company"] = Relationship(back_populates="company")
+    # company: Company = Relationship(back_populates="company_module_access")
+    company_id: uuid.UUID = Field(default=None, foreign_key="company.id")
+    company: "Company" = Relationship(back_populates="company_module_access")
+    terramo_module_id: uuid.UUID = Field(default=None,foreign_key="terramomodule.id")
+    terramo_module: "TerramoModule" = Relationship(back_populates="company_module_access")

@@ -1,19 +1,21 @@
 import uuid
 from datetime import datetime, timezone
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy import func, text
 from sqlalchemy.dialects import postgresql as pg
 from sqlmodel import Column, Field, Relationship
 
-from backend.app.terramo_module.schema import TerramoModuleBaseSchema
+from backend.app.country.schema import CountryBaseSchema
+
 
 if TYPE_CHECKING:
     from backend.app.auth.models import User
     from backend.app.company_module_access.models import CompanyModuleAccess
 
 
-class TerramoModule(TerramoModuleBaseSchema, table=True):
+class Country(CountryBaseSchema, table=True):
+ 
     id: uuid.UUID = Field(
         sa_column=Column(
             pg.UUID(as_uuid=True),
@@ -21,6 +23,7 @@ class TerramoModule(TerramoModuleBaseSchema, table=True):
         ),
         default_factory=uuid.uuid4,
     )
+    
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(
@@ -38,5 +41,20 @@ class TerramoModule(TerramoModuleBaseSchema, table=True):
         ),
     )
 
- 
-    company_module_access: List["CompanyModuleAccess"] = Relationship(back_populates="terramo_module")
+    # Relationships
+    #user_id: uuid.UUID = Field(foreign_key="user.id", ondelete="CASCADE") # FK
+    # user: "User" = Relationship(back_populates="country") # Relation
+    country_created_by: uuid.UUID = Field(foreign_key="user.id", nullable=False)
+    # country_updated_by: Optional[int] = Field(default=None, foreign_key="user.id")
+    country_updated_by: Optional[uuid.UUID] = Field(default=None, foreign_key="user.id")
+    
+    created_by_user: "User" = Relationship(
+        back_populates="countries_created",
+        sa_relationship_kwargs={"foreign_keys": "Country.country_created_by"}
+    )
+    updated_by_user: Optional["User"] = Relationship(
+        back_populates="countries_updated",
+        sa_relationship_kwargs={"foreign_keys": "Country.country_updated_by"}
+    )
+
+   

@@ -41,4 +41,7 @@ class Company(CompanyBaseSchema, table=True):
 
     # Relationships
     users: List["User"] = Relationship(back_populates="company")
-    client_module_access: List["CompanyModuleAccess"] = Relationship(back_populates="company")
+    
+    # client_module_access: List["CompanyModuleAccess"] = Relationship(back_populates="company")
+    company_module_access: List["CompanyModuleAccess"] = Relationship(back_populates="company")
+    

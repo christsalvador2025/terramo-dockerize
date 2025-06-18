@@ -6,14 +6,14 @@ from sqlalchemy import func, text
 from sqlalchemy.dialects import postgresql as pg
 from sqlmodel import Column, Field, Relationship
 
-from backend.app.terramo_module.schema import TerramoModuleBaseSchema
+from backend.app.stakeholder.schema import StakeholderBaseSchema
 
 if TYPE_CHECKING:
     from backend.app.auth.models import User
-    from backend.app.company_module_access.models import CompanyModuleAccess
+ 
 
 
-class TerramoModule(TerramoModuleBaseSchema, table=True):
+class Stakeholder(StakeholderBaseSchema, table=True):
     id: uuid.UUID = Field(
         sa_column=Column(
             pg.UUID(as_uuid=True),
@@ -21,6 +21,7 @@ class TerramoModule(TerramoModuleBaseSchema, table=True):
         ),
         default_factory=uuid.uuid4,
     )
+    
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         sa_column=Column(
@@ -38,5 +39,6 @@ class TerramoModule(TerramoModuleBaseSchema, table=True):
         ),
     )
 
- 
-    company_module_access: List["CompanyModuleAccess"] = Relationship(back_populates="terramo_module")
+    # Relationships
+  
+    
