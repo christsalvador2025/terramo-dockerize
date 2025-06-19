@@ -10,10 +10,13 @@ from sqlmodel import Column, Field, Relationship
 from backend.app.auth.schema import BaseUserSchema, RoleChoicesSchema
 
 if TYPE_CHECKING:
-    from backend.app.user_profile.models import Profile
-    from backend.app.company.models import Company
-    from backend.app.country.models import Country
-
+    
+    from backend.app.models.company.models import Company
+    from backend.app.models.country.models import Country
+    from backend.app.models.esg_check.models import EsgCheck
+    from backend.app.models.esg_check_description.models import EsgCheckDescription
+    from backend.app.models.user_profile.models import Profile
+    from backend.app.models.stakeholder.models import Stakeholder
 
 class User(BaseUserSchema, table=True):
     
@@ -68,7 +71,35 @@ class User(BaseUserSchema, table=True):
         sa_relationship_kwargs={"foreign_keys": "Country.country_updated_by"}
     )
 
+    # --------- ESG Check Relations -----------
+    esgchecks_created: List["EsgCheck"] = Relationship(
+        back_populates="created_by_user",
+        sa_relationship_kwargs={"foreign_keys": "EsgCheck.esgcheck_created_by"}
+    )
+    esgchecks_updated: List["EsgCheck"] = Relationship(
+        back_populates="updated_by_user",
+        sa_relationship_kwargs={"foreign_keys": "EsgCheck.esgcheck_updated_by"}
+    )
+
+    # --------- ESG Check Description Relations -----------
+    esgcheckdescriptions_created: List["EsgCheckDescription"] = Relationship(
+        back_populates="created_by_user",
+        sa_relationship_kwargs={"foreign_keys": "EsgCheckDescription.esgcheckdescription_created_by"}
+    )
+    esgcheckdescriptions_updated: List["EsgCheckDescription"] = Relationship(
+        back_populates="updated_by_user",
+        sa_relationship_kwargs={"foreign_keys": "EsgCheckDescription.esgcheckdescription_updated_by"}
+    )
     
+    # --------- Stakeholders Relations -----------
+    stakeholders_created: List["Stakeholder"] = Relationship(
+        back_populates="created_by_user",
+        sa_relationship_kwargs={"foreign_keys": "Stakeholder.stakeholder_created_by"}
+    )
+    stakeholders_updated: List["Stakeholder"] = Relationship(
+        back_populates="updated_by_user",
+        sa_relationship_kwargs={"foreign_keys": "Stakeholder.stakeholder_updated_by"}
+    )
     # Relationships
     # company: Optional["Company"] = Relationship(back_populates="users")
 

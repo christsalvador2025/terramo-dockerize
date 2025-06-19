@@ -10,7 +10,7 @@ from backend.app.company.schema import CompanyBaseSchema
 
 if TYPE_CHECKING:
     from backend.app.auth.models import User
-    from backend.app.company_module_access.models import CompanyModuleAccess
+    from backend.app.models.company_module_access.models import CompanyModuleAccess
 
 
 class Company(CompanyBaseSchema, table=True):

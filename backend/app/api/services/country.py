@@ -5,8 +5,8 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from backend.app.core.logging import get_logger
-from backend.app.country.models import Country
-from backend.app.country.schema import (
+from backend.app.models.country.models import Country
+from backend.app.models.country.schema import (
     CountryCreateSchema,
     CountryReadSchema,
     CountryUpdateSchema,

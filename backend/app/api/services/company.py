@@ -5,8 +5,8 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from backend.app.core.logging import get_logger
-from backend.app.company.models import Company
-from backend.app.company.schema import (
+from backend.app.models.company.models import Company
+from backend.app.models.company.schema import (
     CompanyCreateSchema,
     CompanyReadSchema,
     CompanyUpdateSchema,

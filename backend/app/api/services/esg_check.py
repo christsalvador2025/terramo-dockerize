@@ -5,8 +5,8 @@ from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from backend.app.core.logging import get_logger
-from backend.app.esg_check.models import EsgCheck
-from backend.app.esg_check.schema import (
+from backend.app.models.esg_check.models import EsgCheck
+from backend.app.models.esg_check.schema import (
     EsgCheckCreateSchema,
     EsgCheckReadSchema,
     EsgCheckUpdateSchema,

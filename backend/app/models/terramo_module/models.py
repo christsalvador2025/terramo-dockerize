@@ -6,11 +6,11 @@ from sqlalchemy import func, text
 from sqlalchemy.dialects import postgresql as pg
 from sqlmodel import Column, Field, Relationship
 
-from backend.app.terramo_module.schema import TerramoModuleBaseSchema
+from backend.app.models.terramo_module.schema import TerramoModuleBaseSchema
 
 if TYPE_CHECKING:
     from backend.app.auth.models import User
-    from backend.app.company_module_access.models import CompanyModuleAccess
+    from backend.app.models.company_module_access.models import CompanyModuleAccess
 
 
 class TerramoModule(TerramoModuleBaseSchema, table=True):

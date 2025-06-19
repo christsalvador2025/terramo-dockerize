@@ -6,13 +6,15 @@ from sqlalchemy import func, text
 from sqlalchemy.dialects import postgresql as pg
 from sqlmodel import Column, Field, Relationship
 
-from backend.app.user_profile.schema import ProfileBaseSchema
+from backend.app.company_module_access.schema import CompanyModuleAccessBaseSchema
 
 if TYPE_CHECKING:
     from backend.app.auth.models import User
+    from backend.app.models.company.models import Company
+    from backend.app.models.terramo_module.models import TerramoModule
 
 
-class Profile(ProfileBaseSchema, table=True):
+class CompanyModuleAccess(CompanyModuleAccessBaseSchema, table=True):
     id: uuid.UUID = Field(
         sa_column=Column(
             pg.UUID(as_uuid=True),
@@ -37,6 +39,9 @@ class Profile(ProfileBaseSchema, table=True):
         ),
     )
 
-    user_id: uuid.UUID = Field(foreign_key="user.id", ondelete="CASCADE")
-
-    user: "User" = Relationship(back_populates="profile")
+    # company: list["Company"] = Relationship(back_populates="company")
+    # company: Company = Relationship(back_populates="company_module_access")
+    company_id: uuid.UUID = Field(default=None, foreign_key="company.id")
+    company: "Company" = Relationship(back_populates="company_module_access")
+    terramo_module_id: uuid.UUID = Field(default=None,foreign_key="terramomodule.id")
+    terramo_module: "TerramoModule" = Relationship(back_populates="company_module_access")

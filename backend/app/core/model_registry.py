@@ -27,7 +27,7 @@ def discover_models() -> list[str]:
             if module_path == ".":
                 full_module_path = "backend.app.models"
             else:
-                full_module_path = f"backend.app.{module_path}.models"
+                full_module_path = f"backend.app.models.{module_path}.models"
 
             logger.debug(f"Discovered models file in: {full_module_path}")
 
